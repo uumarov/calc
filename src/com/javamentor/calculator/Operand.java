@@ -29,6 +29,11 @@ public class Operand {
         return num >= MIN_VALUE && num <= MAX_VALUE;
     }
 
+    private boolean isInRange(String num) {
+        int number = Util.romanToArabic(num);
+        return isInRange(number);
+    }
+
     private boolean isRoman(String number) {
         try {
             Util.romanToArabic(number);
@@ -48,7 +53,11 @@ public class Operand {
                 throw new NumberFormatException("Число должно быть в диапазоне от " + MIN_VALUE + " до " + MAX_VALUE + " включительно");
             }
         } else if (isRoman(number)) {
-            type = Numeral.ROMAN;
+            if (isInRange(number)) {
+                type = Numeral.ROMAN;
+            } else {
+                throw new NumberFormatException("Число должно быть в диапазоне от " + Util.arabicToRoman(MIN_VALUE) + " до " + Util.arabicToRoman(MAX_VALUE) + " включительно");
+            }
         } else {
             throw new NumberFormatException("Неверный формат числа");
         }
